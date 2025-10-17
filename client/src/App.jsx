@@ -1,38 +1,24 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Navbar from "./components/navbar";
+import { Routes, Route } from "react-router-dom";
+import Navbar from "./components/Navbar";
 import MenuPage from "./pages/MenuPage";
-import CartPage from "./pages/CartPage";
-import ReservationPage from "./pages/ReservationPage";
 import LoginPage from "./pages/LoginPage";
 import SignupPage from "./pages/SignupPage";
-import AccountPage from "./pages/AccountPage"; // formerly userprofile.jsx
-import PrivateRoute from "./PrivateRoute";
-import { AuthProvider } from "./context/AuthContext";
-import ChatAssistant from "./components/ChatAssistant";
-
+import ReservationPage from "./pages/ReservationPage";
+import CartPage from "./pages/CartPage";
 
 function App() {
   return (
-      <AuthProvider>
-        <Navbar />
-        <Routes>
-          <Route path="/" element={<MenuPage />} />
-          <Route path="/cart" element={<CartPage />} />
-          <Route path="/reserve" element={<ReservationPage />} />
-          <Route path="/login" element={<LoginPage />} />
-          <Route path="/signup" element={<SignupPage />} />
-          <Route
-            path="/account"
-            element={
-              <PrivateRoute>
-                <AccountPage />
-              </PrivateRoute>
-            }
-          />
-        </Routes>
-          <ChatAssistant />
-      </AuthProvider>
+    <>
+      <Navbar />
+      <Routes>
+        <Route path="/menu" element={<MenuPage />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/signup" element={<SignupPage />} />
+        <Route path="/reservation" element={<ReservationPage />} />
+        <Route path="/cart" element={<CartPage />} />
+      </Routes>
+    </>
   );
 }
 

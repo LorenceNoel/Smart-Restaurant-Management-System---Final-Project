@@ -1,22 +1,34 @@
-import React, { createContext, useState, useContext } from "react";
+import React, { createContext, useState, useContext, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
-export const AuthContext = createContext();
+const AuthContext = createContext();
 
 export function AuthProvider({ children }) {
-  const [user, setUser] = useState(JSON.parse(localStorage.getItem("user")));
+  const [user, setUser] = useState(null);
+  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const navigate = useNavigate();
 
+  useEffect(() => {
+    const storedUser = JSON.parse(localStorage.getItem("user"));
+    if (storedUser) {
+      setUser(storedUser);
+      setIsAuthenticated(true);
+    }
+  }, []);
+
   function signup(email, password) {
-    localStorage.setItem("user", JSON.stringify({ email, password }));
-    setUser({ email });
+    const newUser = { email, password };
+    localStorage.setItem("user", JSON.stringify(newUser));
+    setUser(newUser);
+    setIsAuthenticated(true);
     navigate("/home");
   }
 
   function login(email, password) {
     const storedUser = JSON.parse(localStorage.getItem("user"));
     if (storedUser && storedUser.email === email && storedUser.password === password) {
-      setUser({ email });
+      setUser(storedUser);
+      setIsAuthenticated(true);
       navigate("/home");
     } else {
       alert("Invalid credentials");
@@ -25,17 +37,16 @@ export function AuthProvider({ children }) {
 
   function logout() {
     setUser(null);
+    setIsAuthenticated(false);
     localStorage.removeItem("user");
     navigate("/login");
   }
 
   return (
-    <AuthContext.Provider value={{ user, signup, login, logout }}>
+    <AuthContext.Provider value={{ user, isAuthenticated, signup, login, logout }}>
       {children}
     </AuthContext.Provider>
   );
 }
 
-export function useAuth() {
-  return useContext(AuthContext);
-}
+export const useAuth = () => useContext(AuthContext);
