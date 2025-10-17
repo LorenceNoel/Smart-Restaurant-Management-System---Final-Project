@@ -1,36 +1,38 @@
-.header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: #365f91;
-  color: white;
-  padding: 10px 20px;
-}
-
-.header a {
-  color: white;
-  text-decoration: none;
-  margin: 0 10px;
-}
-
-.header button {
-  background-color: #f44336;
-  color: white;
-  border: none;
-  padding: 6px 10px;
-  cursor: pointer;
+:root {
+  --champagne: #f3edc4;
+  --mimosa: #f4cc5f;
+  --burgundy: #b40028;
+  --taupe: #9b8775;
 }
 
 .navbar {
   display: flex;
-  gap: 1rem;
-  padding: 1rem;
+  justify-content: center;
+  gap: 2rem;
+  padding: 1rem 2rem;
   background-color: var(--burgundy);
   color: var(--champagne);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  font-family: 'Segoe UI', sans-serif;
 }
 
 .navbar a {
   text-decoration: none;
-  color: #333;
-  font-weight: bold;
+  color: var(--champagne);
+  font-weight: 600;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.navbar a:hover {
+  background-color: var(--mimosa);
+  color: var(--burgundy);
+}
+
+.navbar a.active {
+  background-color: var(--champagne);
+  color: var(--burgundy);
+  font-weight: 700;
+  box-shadow: inset 0 -2px 0 var(--mimosa);
 }

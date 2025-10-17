@@ -1,0 +1,53 @@
+:root {
+  --champagne: #f3edc4;
+  --mimosa: #f4cc5f;
+  --burgundy: #b40028;
+  --taupe: #9b8775;
+}
+
+.filter-bar {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  padding: 1rem;
+  margin-bottom: 2rem;
+  background-color: white;
+  border: 1px solid var(--taupe);
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  font-family: 'Montserrat', sans-serif;
+}
+
+.filter-bar input,
+.filter-bar select {
+  padding: 0.5rem;
+  border: 1px solid var(--taupe);
+  border-radius: 6px;
+  font-size: 1rem;
+  min-width: 150px;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.filter-bar input:focus,
+.filter-bar select:focus {
+  border-color: var(--burgundy);
+  box-shadow: 0 0 4px rgba(180, 0, 40, 0.3);
+  outline: none;
+}
+
+.filter-bar button {
+  background-color: var(--burgundy);
+  color: white;
+  border: none;
+  padding: 1rem 1rem;
+  font-weight: bold;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.filter-bar button:hover {
+  background-color: var(--mimosa);
+  color: var(--burgundy);
+}

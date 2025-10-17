@@ -1,65 +1,81 @@
-import React, { useState, useEffect } from 'react';
-import FilterBar from '../components/FilterBar';
-import MenuItemCard from '../components/MenuItemCard';
-import { useAuth } from "../context/AuthContext";
-import './MenuPage.css';
-
+import React, { useState, useEffect } from "react";
+import FilterBar from "../components/FilterBar";
+import MenuItemCard from "../components/MenuItemCard";
+import "../components/MenuPage.css";
 
 function MenuPage() {
   const [menuItems, setMenuItems] = useState([]);
   const [filteredItems, setFilteredItems] = useState([]);
+  const [filters, setFilters] = useState({
+    category: "",
+    dietary: "",
+    maxPrice: "",
+    search: "",
+  });
 
   useEffect(() => {
     const mockData = [
       {
         id: 1,
-        name: 'Caesar Salad',
-        description: 'Crisp romaine, parmesan, croutons',
-        ingredients: 'Romaine, Parmesan, Croutons, Caesar Dressing',
-        category: 'Starters',
+        name: "Caesar Salad",
+        description: "Crisp romaine, parmesan, croutons",
+        ingredients: "Romaine, Parmesan, Croutons, Caesar Dressing",
+        category: "Starters",
         price: 8.99,
-        dietary: 'vegetarian',
+        dietary: "vegetarian",
       },
       {
         id: 2,
-        name: 'Grilled Salmon',
-        description: 'Served with lemon butter sauce',
-        ingredients: 'Salmon, Lemon, Butter, Herbs',
-        category: 'Mains',
+        name: "Grilled Salmon",
+        description: "Served with lemon butter sauce",
+        ingredients: "Salmon, Lemon, Butter, Herbs",
+        category: "Mains",
         price: 18.99,
-        dietary: 'gluten-free',
+        dietary: "gluten-free",
       },
       {
         id: 3,
-        name: 'Chocolate Cake',
-        description: 'Rich and moist vegan dessert',
-        ingredients: 'Cocoa, Almond Milk, Flour, Sugar',
-        category: 'Desserts',
+        name: "Chocolate Cake",
+        description: "Rich and moist vegan dessert",
+        ingredients: "Cocoa, Almond Milk, Flour, Sugar",
+        category: "Desserts",
         price: 6.5,
-        dietary: 'vegan',
+        dietary: "vegan",
       },
     ];
+
     setMenuItems(mockData);
-    setFilteredItems(mockData);
+    setFilteredItems(mockData); // Show all by default
   }, []);
 
-  const handleFilter = ({ category, dietary, maxPrice, search }) => {
+  const applyFilters = () => {
     let filtered = [...menuItems];
-    if (category) filtered = filtered.filter(item => item.category === category);
-    if (dietary) filtered = filtered.filter(item => item.dietary === dietary);
-    if (maxPrice) filtered = filtered.filter(item => item.price <= maxPrice);
-    if (search) filtered = filtered.filter(item =>
-      item.name.toLowerCase().includes(search.toLowerCase())
-    );
+    const { category, dietary, maxPrice, search } = filters;
+
+    if (category) {
+      filtered = filtered.filter((item) => item.category === category);
+    }
+    if (dietary) {
+      filtered = filtered.filter((item) => item.dietary === dietary);
+    }
+    if (maxPrice) {
+      filtered = filtered.filter((item) => item.price <= parseFloat(maxPrice));
+    }
+    if (search) {
+      filtered = filtered.filter((item) =>
+        item.name.toLowerCase().includes(search.toLowerCase())
+      );
+    }
+
     setFilteredItems(filtered);
   };
 
   return (
     <div className="menu-page">
       <h1 className="menu-title">Explore Our Menu</h1>
-      <FilterBar onFilter={handleFilter} />
+      <FilterBar filters={filters} setFilters={setFilters} applyFilters={applyFilters} />
       <div className="menu-grid">
-        {filteredItems.map(item => (
+        {filteredItems.map((item) => (
           <MenuItemCard key={item.id} item={item} />
         ))}
       </div>

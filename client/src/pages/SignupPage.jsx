@@ -1,8 +1,9 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import '../components/SignupPage.css';
 
-function Signup() {
+function SignupPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { signup } = useAuth();
@@ -31,23 +32,27 @@ function Signup() {
   };
 
   return (
-    <div>
-      <h2>Signup</h2>
-      <input
-        type="email"
-        placeholder="Email"
-        onChange={(e) => setEmail(e.target.value)}
-        required
-      />
-      <input
-        type="password"
-        placeholder="Password"
-        onChange={(e) => setPassword(e.target.value)}
-        required
-      />
-      <button onClick={handleSignup}>Sign Up</button>
+    <div className="signup-page">
+      <h2>Create an Account</h2>
+      <form className="signup-form" onSubmit={(e) => e.preventDefault()}>
+        <input
+          type="email"
+          placeholder="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+        />
+        <input
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+        />
+        <button onClick={handleSignup}>Sign Up</button>
+      </form>
     </div>
   );
 }
 
-export default Signup;
+export default SignupPage;

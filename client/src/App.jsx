@@ -9,10 +9,11 @@ import SignupPage from "./pages/SignupPage";
 import AccountPage from "./pages/AccountPage"; // formerly userprofile.jsx
 import PrivateRoute from "./PrivateRoute";
 import { AuthProvider } from "./context/AuthContext";
+import ChatAssistant from "./components/ChatAssistant";
+
 
 function App() {
   return (
-    <Router>
       <AuthProvider>
         <Navbar />
         <Routes>
@@ -30,8 +31,8 @@ function App() {
             }
           />
         </Routes>
+          <ChatAssistant />
       </AuthProvider>
-    </Router>
   );
 }
 

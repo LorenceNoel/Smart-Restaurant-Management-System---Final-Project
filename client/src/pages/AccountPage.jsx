@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-function UserProfile() {
+function AccountPage() {
     const [user, setUser]=useState({id:"",fullname:" " , email:" "})
     const [users, setUsers] = useState([])
 
@@ -46,4 +46,4 @@ function UserProfile() {
   )
 }
 
-export default UserProfile
+export default AccountPage

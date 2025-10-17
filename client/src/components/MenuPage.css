@@ -6,9 +6,10 @@
 }
 
 .menu-page {
-  background-color: var(--champagne);
+  background-color: #f7f7f7;
   padding: 2rem;
   min-height: 100vh;
+  background-color: transparent;
 }
 
 .menu-title {
@@ -40,7 +41,7 @@
 }
 
 .menu-card {
-  background-color: white;
+  background-color: var(--champagne);
   border: 1px solid var(--taupe);
   border-radius: 8px;
   padding: 1rem;
@@ -53,6 +54,31 @@
 }
 
 .menu-card .price {
-  color: var(--mimosa);
+  color: var(--burgundy);
   font-weight: bold;
+}
+
+.add-to-cart-btn {
+  background-color: white;
+  color: var(--burgundy);
+  border: var(--burgundy) 2px solid;
+  padding: 0.6rem 1.2rem;
+  font-weight: 600;
+  font-family: 'Montserrat', sans-serif;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.add-to-cart-btn:hover {
+  background-color: var(--mimosa);
+  color: var(--burgundy);
+  transform: scale(1.05);
+}
+
+.add-to-cart-btn:active {
+  transform: scale(0.98);
 }

@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { useAuth } from "../context/AuthContext";
+import '../components/LoginPage.css';
 
-function Login() {
+function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { login } = useAuth();
@@ -12,17 +13,27 @@ function Login() {
   }
 
   return (
-    <div>
+    <div className="login-page">
       <h2>Login</h2>
-      <form onSubmit={handleSubmit}>
-        <input type="email" placeholder="Email" value={email}
-          onChange={(e) => setEmail(e.target.value)} required />
-        <input type="password" placeholder="Password" value={password}
-          onChange={(e) => setPassword(e.target.value)} required />
+      <form className="login-form" onSubmit={handleSubmit}>
+        <input
+          type="email"
+          placeholder="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+        />
+        <input
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+        />
         <button type="submit">Login</button>
       </form>
     </div>
   );
 }
 
-export default Login;
+export default LoginPage;

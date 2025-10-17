@@ -1,4 +1,5 @@
 import React from 'react';
+import "./FilterBar.css";
 
 function MenuItemCard({ item }) {
   return (
@@ -8,7 +9,10 @@ function MenuItemCard({ item }) {
       <p>{item.description}</p>
       <p><em>{item.ingredients}</em></p>
       <p className="price">${item.price.toFixed(2)}</p>
-      <button>Add to Cart</button>
+<button className="add-to-cart-btn" onClick={() => addToCart(item)}>
+  Add to Cart  🛒 
+</button>
+
     </div>
   );
 }

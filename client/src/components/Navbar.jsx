@@ -1,14 +1,14 @@
-import { Link } from "react-router-dom";
-import './header.css'
+import { NavLink } from 'react-router-dom';
+import './header.css';
 
 function Navbar() {
   return (
-    <nav style={{ padding: "1rem", backgroundColor: "#eee", textAlign: "center" }}>
-      <Link to="/" style={{ margin: "0 10px" }}>Menu</Link>
-      <Link to="/cart" style={{ margin: "0 10px" }}>Cart</Link>
-      <Link to="/reserve" style={{ margin: "0 10px" }}>Reservations</Link>
-      <Link to="/login" style={{ margin: "0 10px" }}>Login</Link>
-      <Link to="/signup" style={{ margin: "0 10px" }}>Signup</Link>
+    <nav className="navbar">
+      <NavLink to="/" end className={({ isActive }) => isActive ? 'active' : ''}>MENU</NavLink>
+      <NavLink to="/cart" className={({ isActive }) => isActive ? 'active' : ''}>CART</NavLink>
+      <NavLink to="/reserve" className={({ isActive }) => isActive ? 'active' : ''}>RESERVATION</NavLink>
+      <NavLink to="/login" className={({ isActive }) => isActive ? 'active' : ''}>LOGIN</NavLink>
+      <NavLink to="/signup" className={({ isActive }) => isActive ? 'active' : ''}>SIGNUP</NavLink>
     </nav>
   );
 }
