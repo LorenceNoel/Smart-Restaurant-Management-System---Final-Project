@@ -1,16 +1,15 @@
-import React from "react";
 import React, { useState, useEffect } from 'react';
 import FilterBar from '../components/FilterBar';
 import MenuItemCard from '../components/MenuItemCard';
 import { useAuth } from "../context/AuthContext";
 import './MenuPage.css';
 
+
 function MenuPage() {
   const [menuItems, setMenuItems] = useState([]);
   const [filteredItems, setFilteredItems] = useState([]);
 
   useEffect(() => {
-    // Replace with backend API call later
     const mockData = [
       {
         id: 1,
