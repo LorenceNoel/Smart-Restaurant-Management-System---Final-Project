@@ -1,0 +1,58 @@
+:root {
+  --champagne: #f3edc4;
+  --mimosa: #f4cc5f;
+  --burgundy: #b40028;
+  --taupe: #9b8775;
+}
+
+.menu-page {
+  background-color: var(--champagne);
+  padding: 2rem;
+  min-height: 100vh;
+}
+
+.menu-title {
+  color: var(--burgundy);
+  font-size: 2.5rem;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.filter-bar {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+
+.filter-bar input,
+.filter-bar select,
+.filter-bar button {
+  padding: 0.5rem;
+  border: 1px solid var(--taupe);
+  border-radius: 4px;
+}
+
+.menu-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+.menu-card {
+  background-color: white;
+  border: 1px solid var(--taupe);
+  border-radius: 8px;
+  padding: 1rem;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.menu-card h3 {
+  color: var(--burgundy);
+  margin-bottom: 0.5rem;
+}
+
+.menu-card .price {
+  color: var(--mimosa);
+  font-weight: bold;
+}

@@ -1,3 +1,10 @@
+:root {
+  --champagne: #f3edc4;
+  --mimosa: #f4cc5f;
+  --burgundy: #b40028;
+  --taupe: #9b8775;
+}
+
 body {
   font-family: Arial, sans-serif;
   margin: 0;

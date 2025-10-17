@@ -1,14 +1,12 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Header from "./components/Header";
-import Signup from "./pages/Signup";
-import Login from "./pages/Login";
-import Home from "./pages/Home";
-import About from "./pages/About";
-import Profession from "./pages/Profession";
-import PrivateRoute from "./PrivateRoute";
-import { AuthProvider } from "./context/AuthContext";
-import Navbar from "./components/Navbar";
+import Navbar from './components/navbar';
+import MenuPage from './pages/MenuPage';
+import CartPage from './pages/CartPage';
+import ReservationPage from './pages/ReservationPage';
+import LoginPage from './pages/LoginPage';
+import SignupPage from './pages/SignupPage';
+
 
 function App() {
   return (
@@ -17,12 +15,11 @@ function App() {
         <Navbar />
         <Header />
         <Routes>
-          <Route path="/signup" element={<Signup />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/home" element={<PrivateRoute><Home /></PrivateRoute>} />
-          <Route path="/about" element={<PrivateRoute><About /></PrivateRoute>} />
-          <Route path="/profession" element={<PrivateRoute><Profession /></PrivateRoute>} />
-          <Route path="*" element={<Login />} />
+            <Route path="/" element={<MenuPage />} />
+        <Route path="/cart" element={<CartPage />} />
+        <Route path="/reserve" element={<ReservationPage />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/signup" element={<SignupPage />} />
         </Routes>
       </AuthProvider>
     </Router>
