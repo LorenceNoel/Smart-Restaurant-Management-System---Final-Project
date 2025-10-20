@@ -16,13 +16,14 @@ export function AuthProvider({ children }) {
     }
   }, []);
 
-  function signup(email, password) {
-    const newUser = { email, password };
-    localStorage.setItem("user", JSON.stringify(newUser));
-    setUser(newUser);
-    setIsAuthenticated(true);
-    navigate("/home");
-  }
+function signup(email, password) {
+  const newUser = { email, password };
+  localStorage.setItem("user", JSON.stringify(newUser));
+  setUser(newUser);
+  setIsAuthenticated(true);
+  alert("✅ Signup successful!");
+  navigate("/menu"); 
+}
 
   function login(email, password) {
     const storedUser = JSON.parse(localStorage.getItem("user"));

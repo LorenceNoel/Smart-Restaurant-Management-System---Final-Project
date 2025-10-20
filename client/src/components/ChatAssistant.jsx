@@ -1,25 +1,32 @@
 import React, { useState } from "react";
-import '../components/ChatAssistant.css';
+import "../components/ChatAssistant.css";
+import { getAssistantReply } from "../services/openaiAssistant";
 
 function ChatAssistant() {
   const [messages, setMessages] = useState([
     { sender: "bot", text: "Hi! I'm your restaurant assistant. Ask me anything!" },
   ]);
   const [input, setInput] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleSend = async () => {
     if (!input.trim()) return;
 
     const userMessage = { sender: "user", text: input };
     setMessages(prev => [...prev, userMessage]);
-
-    const botResponse = {
-      sender: "bot",
-      text: `You asked: "${input}". Here's a helpful response!`,
-    };
-
-    setMessages(prev => [...prev, botResponse]);
     setInput("");
+    setLoading(true);
+
+    try {
+      const reply = await getAssistantReply(input);
+      const botMessage = { sender: "bot", text: reply };
+      setMessages(prev => [...prev, botMessage]);
+    } catch (error) {
+      setMessages(prev => [...prev, { sender: "bot", text: "Sorry, I couldn't respond right now." }]);
+      console.error("OpenAI error:", error);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -31,6 +38,7 @@ function ChatAssistant() {
             {msg.text}
           </div>
         ))}
+        {loading && <div className="chat-msg bot">Typing...</div>}
       </div>
       <div className="chat-input">
         <input

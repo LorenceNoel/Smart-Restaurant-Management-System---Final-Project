@@ -1,33 +1,35 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import '../components/SignupPage.css';
+import "../components/SignupPage.css";
 
 function SignupPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { signup } = useAuth();
-  const navigate = useNavigate();
 
   const validateForm = () => {
+    if (!email.trim()) {
+      alert("Email is required");
+      return false;
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+      alert("Please enter a valid email address");
+      return false;
+    }
+
     if (password.length < 6) {
       alert("Password must be at least 6 characters");
       return false;
     }
+
     return true;
   };
 
   const handleSignup = () => {
     if (validateForm()) {
-      signup(email, password)
-        .then(() => {
-          localStorage.setItem("user", JSON.stringify({ email, password }));
-          alert("Signup successful");
-          navigate("/");
-        })
-        .catch((error) => {
-          alert("Signup failed: " + error.message);
-        });
+      signup(email, password);
     }
   };
 
@@ -49,7 +51,9 @@ function SignupPage() {
           onChange={(e) => setPassword(e.target.value)}
           required
         />
-        <button onClick={handleSignup}>Sign Up</button>
+        <button type="submit" onClick={handleSignup}>
+          Sign Up
+        </button>
       </form>
     </div>
   );

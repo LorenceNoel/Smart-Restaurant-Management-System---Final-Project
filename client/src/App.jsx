@@ -6,6 +6,7 @@ import LoginPage from "./pages/LoginPage";
 import SignupPage from "./pages/SignupPage";
 import ReservationPage from "./pages/ReservationPage";
 import CartPage from "./pages/CartPage";
+import ChatAssistant from "./components/ChatAssistant";
 
 function App() {
   return (
@@ -18,6 +19,8 @@ function App() {
         <Route path="/reservation" element={<ReservationPage />} />
         <Route path="/cart" element={<CartPage />} />
       </Routes>
+              <ChatAssistant />
+
     </>
   );
 }
