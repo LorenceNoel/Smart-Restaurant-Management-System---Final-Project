@@ -1,15 +1,3 @@
-:root {
-  --champagne: #f3edc4;
-  --mimosa: #f4cc5f;
-  --burgundy: #b40028;
-  --taupe: #9b8775;
-}
-
-body {
-  background-color: #f7f7f7;
-  font-family: 'Montserrat', sans-serif;
-}
-
 .login-page {
   max-width: 400px;
   margin: auto;
@@ -54,4 +42,21 @@ body {
 .login-form button:hover {
   background-color: var(--mimosa);
   color: var(--burgundy);
+}
+
+.admin-login-button {
+  width: 100%;
+  padding: 0.75rem;
+  background-color: var(--taupe);
+  color: white;
+  border: none;
+  font-weight: bold;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.admin-login-button:hover {
+  background-color: var(--burgundy);
+  color: var(--champagne);
 }

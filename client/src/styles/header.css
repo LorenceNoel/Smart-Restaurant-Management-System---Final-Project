@@ -27,11 +27,9 @@
   font-size: 1rem;
   position: relative;
   padding: 0.4rem 0.8rem;
-}
-
-.nav-item:hover {
-  color: var(--mimosa);
-  transform: translateY(-1px);
+  opacity: 0;
+  transform: translateY(-10px);
+  animation: fadeSlideIn 0.4s ease forwards;
 }
 
 .nav-item.active {
@@ -50,6 +48,13 @@
   font-weight: bold;
   cursor: pointer;
   padding: 0.4rem 0.8rem;
+  font-size: 1rem;
+  transition: color 0.3s ease, transform 0.2s ease;
+}
+
+.logout-btn:hover {
+  color: var(--mimosa);
+  transform: translateY(-1px);
 }
 
 @keyframes fadeSlideIn {
@@ -62,15 +67,3 @@
     transform: translateY(0);
   }
 }
-
-.nav-item {
-  opacity: 0;
-  transform: translateY(-10px);
-  animation: fadeSlideIn 0.4s ease forwards;
-}
-
-.nav-item:nth-child(1) { animation-delay: 0.1s; }
-.nav-item:nth-child(2) { animation-delay: 0.2s; }
-.nav-item:nth-child(3) { animation-delay: 0.3s; }
-.nav-item:nth-child(4) { animation-delay: 0.4s; }
-.nav-item:nth-child(5) { animation-delay: 0.5s; }

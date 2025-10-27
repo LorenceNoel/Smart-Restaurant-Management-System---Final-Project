@@ -16,21 +16,37 @@ export function AuthProvider({ children }) {
     }
   }, []);
 
-function signup(email, password) {
-  const newUser = { email, password };
-  localStorage.setItem("user", JSON.stringify(newUser));
-  setUser(newUser);
-  setIsAuthenticated(true);
-  alert("✅ Signup successful!");
-  navigate("/menu"); 
-}
+  function signup(email, password, role = "customer") {
+    const newUser = { email, password, role };
+    localStorage.setItem("user", JSON.stringify(newUser));
+    setUser(newUser);
+    setIsAuthenticated(true);
+    alert("✅ Signup successful!");
+    navigate("/menu");
+  }
 
   function login(email, password) {
     const storedUser = JSON.parse(localStorage.getItem("user"));
-    if (storedUser && storedUser.email === email && storedUser.password === password) {
+
+    // ✅ Check for hardcoded admin credentials
+    if (email === "admin@example.com" && password === "admin123") {
+      const adminUser = { email, password, role: "admin" };
+      localStorage.setItem("user", JSON.stringify(adminUser));
+      setUser(adminUser);
+      setIsAuthenticated(true);
+      navigate("/admin");
+      return;
+    }
+
+    // ✅ Check stored user credentials
+    if (
+      storedUser &&
+      storedUser.email === email &&
+      storedUser.password === password
+    ) {
       setUser(storedUser);
       setIsAuthenticated(true);
-      navigate("/home");
+      navigate(storedUser.role === "admin" ? "/admin" : "/menu");
     } else {
       alert("Invalid credentials");
     }

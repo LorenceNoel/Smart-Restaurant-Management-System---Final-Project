@@ -1,24 +1,26 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
-import "./Header.css";
+import "../styles/Header.css";
 
 function Navbar() {
-  const { isAuthenticated, logout } = useAuth();
+  const { user, logout } = useAuth();
+  const isAdmin = user?.role === "admin";
+
+  if (isAdmin) return null;
 
   return (
     <nav className="navbar">
-      <NavLink to="/menu" className="nav-item">Menu</NavLink>
-
-      {!isAuthenticated ? (
+      <NavLink to="/menu" className={({ isActive }) => isActive ? "nav-item active" : "nav-item"}>Menu</NavLink>
+      {!user ? (
         <>
-          <NavLink to="/login" className="nav-item">Login</NavLink>
-          <NavLink to="/signup" className="nav-item">Signup</NavLink>
+          <NavLink to="/login" className={({ isActive }) => isActive ? "nav-item active" : "nav-item"}>Login</NavLink>
+          <NavLink to="/signup" className={({ isActive }) => isActive ? "nav-item active" : "nav-item"}>Signup</NavLink>
         </>
       ) : (
         <>
-          <NavLink to="/reservation" className="nav-item">Reservation</NavLink>
-          <NavLink to="/cart" className="nav-item">Cart</NavLink>
+          <NavLink to="/reservation" className={({ isActive }) => isActive ? "nav-item active" : "nav-item"}>Reservation</NavLink>
+          <NavLink to="/cart" className={({ isActive }) => isActive ? "nav-item active" : "nav-item"}>Cart</NavLink>
           <button onClick={logout} className="nav-item logout-btn">Logout</button>
         </>
       )}

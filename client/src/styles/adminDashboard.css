@@ -1,0 +1,170 @@
+:root {
+  --champagne: #f3edc4;
+  --mimosa: #f4cc5f;
+  --burgundy: #b40028;
+  --taupe: #9b8775;
+  --light-bg: #f9f9f9;
+  --card-bg: #ffffff;
+  --shadow: rgba(0, 0, 0, 0.05);
+}
+
+.admin-dashboard {
+  font-family: 'Montserrat', sans-serif;
+  background-color: var(--light-bg);
+  padding: 2rem;
+  min-height: 100vh;
+}
+
+/* Header */
+.admin-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--burgundy);
+  color: var(--champagne);
+  padding: 1rem 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px var(--shadow);
+}
+
+.admin-header h1 {
+  margin: 0;
+  font-size: 1.8rem;
+}
+
+.admin-user {
+  font-size: 0.9rem;
+  opacity: 0.8;
+}
+
+.logout-btn {
+  background-color: var(--taupe);
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.logout-btn:hover {
+  background-color: var(--champagne);
+  color: var(--burgundy);
+}
+
+/* Tabs */
+.admin-tabs {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin: 2rem 0;
+  flex-wrap: wrap;
+}
+
+.tab {
+  background-color: var(--card-bg);
+  border: 1px solid var(--taupe);
+  padding: 0.6rem 1.2rem;
+  border-radius: 30px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  color: var(--burgundy);
+  box-shadow: 0 2px 6px var(--shadow);
+}
+
+.tab:hover {
+  background-color: var(--mimosa);
+  color: var(--burgundy);
+}
+
+.tab.active {
+  background-color: var(--burgundy);
+  color: var(--champagne);
+  box-shadow: 0 4px 12px var(--shadow);
+}
+
+/* Content */
+.admin-content {
+  background-color: var(--card-bg);
+  padding: 2rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px var(--shadow);
+}
+
+/* Panel Layout */
+.panel {
+  background-color: var(--card-bg);
+  padding: 1.5rem;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px var(--shadow);
+  margin-bottom: 2rem;
+}
+
+.panel h2 {
+  font-size: 1.5rem;
+  color: var(--burgundy);
+  margin-bottom: 1rem;
+}
+
+.panel-section {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.panel-card {
+  flex: 1 1 300px;
+  background-color: var(--light-bg);
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px var(--shadow);
+  transition: transform 0.2s ease;
+}
+
+.panel-card:hover {
+  transform: translateY(-2px);
+}
+
+.panel-card h3 {
+  margin-top: 0;
+  font-size: 1.2rem;
+  color: var(--taupe);
+}
+
+.panel-card p {
+  font-size: 0.95rem;
+  color: #333;
+}
+
+.panel-card button,
+.panel-card select {
+  background-color: var(--burgundy);
+  color: var(--champagne);
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  font-size: 0.9rem;
+}
+
+.panel-card button:hover,
+.panel-card select:hover {
+  background-color: var(--mimosa);
+  color: var(--burgundy);
+  transform: translateY(-1px);
+}
+
+.panel-card select {
+  width: 100%;
+  margin-top: 0.5rem;
+}
+
+.button-group {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
