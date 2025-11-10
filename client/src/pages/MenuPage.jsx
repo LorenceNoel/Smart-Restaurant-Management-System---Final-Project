@@ -1,81 +1,41 @@
 import React, { useState, useEffect } from "react";
-import FilterBar from "../components/FilterBar";
 import MenuItemCard from "../components/MenuItemCard";
-import "../components/MenuPage.css";
+import { getMenuItems } from "../services/menuService";
+import "../styles/MenuPage.css";
 
 function MenuPage() {
   const [menuItems, setMenuItems] = useState([]);
-  const [filteredItems, setFilteredItems] = useState([]);
-  const [filters, setFilters] = useState({
-    category: "",
-    dietary: "",
-    maxPrice: "",
-    search: "",
-  });
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const mockData = [
-      {
-        id: 1,
-        name: "Caesar Salad",
-        description: "Crisp romaine, parmesan, croutons",
-        ingredients: "Romaine, Parmesan, Croutons, Caesar Dressing",
-        category: "Starters",
-        price: 8.99,
-        dietary: "vegetarian",
-      },
-      {
-        id: 2,
-        name: "Grilled Salmon",
-        description: "Served with lemon butter sauce",
-        ingredients: "Salmon, Lemon, Butter, Herbs",
-        category: "Mains",
-        price: 18.99,
-        dietary: "gluten-free",
-      },
-      {
-        id: 3,
-        name: "Chocolate Cake",
-        description: "Rich and moist vegan dessert",
-        ingredients: "Cocoa, Almond Milk, Flour, Sugar",
-        category: "Desserts",
-        price: 6.5,
-        dietary: "vegan",
-      },
-    ];
+    const fetchMenuItems = async () => {
+      try {
+        const items = await getMenuItems();
+        setMenuItems(items);
+      } catch (error) {
+        console.error('Error loading menu items:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
-    setMenuItems(mockData);
-    setFilteredItems(mockData); // Show all by default
+    fetchMenuItems();
   }, []);
 
-  const applyFilters = () => {
-    let filtered = [...menuItems];
-    const { category, dietary, maxPrice, search } = filters;
-
-    if (category) {
-      filtered = filtered.filter((item) => item.category === category);
-    }
-    if (dietary) {
-      filtered = filtered.filter((item) => item.dietary === dietary);
-    }
-    if (maxPrice) {
-      filtered = filtered.filter((item) => item.price <= parseFloat(maxPrice));
-    }
-    if (search) {
-      filtered = filtered.filter((item) =>
-        item.name.toLowerCase().includes(search.toLowerCase())
-      );
-    }
-
-    setFilteredItems(filtered);
-  };
+  if (loading) {
+    return (
+      <div className="menu-page">
+        <h1 className="menu-title">Our Menu</h1>
+        <p>Loading menu items...</p>
+      </div>
+    );
+  }
 
   return (
     <div className="menu-page">
-      <h1 className="menu-title">Explore Our Menu</h1>
-      <FilterBar filters={filters} setFilters={setFilters} applyFilters={applyFilters} />
+      <h1 className="menu-title">Our Menu</h1>
       <div className="menu-grid">
-        {filteredItems.map((item) => (
+        {menuItems.map((item) => (
           <MenuItemCard key={item.id} item={item} />
         ))}
       </div>

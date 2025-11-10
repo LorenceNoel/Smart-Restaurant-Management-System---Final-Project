@@ -16,39 +16,79 @@ export function AuthProvider({ children }) {
     }
   }, []);
 
-  function signup(email, password, role = "customer") {
-    const newUser = { email, password, role };
-    localStorage.setItem("user", JSON.stringify(newUser));
-    setUser(newUser);
-    setIsAuthenticated(true);
-    alert("✅ Signup successful!");
-    navigate("/menu");
+  async function signup(email, password, firstName = "", lastName = "", phone = "") {
+    try {
+      const response = await fetch('http://localhost:5000/api/auth/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email,
+          password,
+          firstName,
+          lastName,
+          phone
+        }),
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        const newUser = {
+          userId: data.data.userId,
+          email: data.data.email,
+          firstName,
+          lastName,
+          role: data.data.role
+        };
+        localStorage.setItem("user", JSON.stringify(newUser));
+        setUser(newUser);
+        setIsAuthenticated(true);
+        alert("✅ Signup successful!");
+        navigate("/menu");
+      } else {
+        alert("❌ " + data.error);
+      }
+    } catch (error) {
+      console.error('Signup error:', error);
+      alert("❌ Signup failed. Please try again.");
+    }
   }
 
-  function login(email, password) {
-    const storedUser = JSON.parse(localStorage.getItem("user"));
+  async function login(email, password) {
+    try {
+      const response = await fetch('http://localhost:5000/api/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email,
+          password
+        }),
+      });
 
-    // ✅ Check for hardcoded admin credentials
-    if (email === "admin@example.com" && password === "admin123") {
-      const adminUser = { email, password, role: "admin" };
-      localStorage.setItem("user", JSON.stringify(adminUser));
-      setUser(adminUser);
-      setIsAuthenticated(true);
-      navigate("/admin");
-      return;
-    }
+      const data = await response.json();
 
-    // ✅ Check stored user credentials
-    if (
-      storedUser &&
-      storedUser.email === email &&
-      storedUser.password === password
-    ) {
-      setUser(storedUser);
-      setIsAuthenticated(true);
-      navigate(storedUser.role === "admin" ? "/admin" : "/menu");
-    } else {
-      alert("Invalid credentials");
+      if (data.success) {
+        const userData = {
+          userId: data.data.userId,
+          email: data.data.email,
+          firstName: data.data.firstName,
+          lastName: data.data.lastName,
+          role: data.data.role
+        };
+        localStorage.setItem("user", JSON.stringify(userData));
+        setUser(userData);
+        setIsAuthenticated(true);
+        navigate(userData.role === "admin" ? "/admin" : "/menu");
+      } else {
+        alert("❌ " + data.error);
+      }
+    } catch (error) {
+      console.error('Login error:', error);
+      alert("❌ Login failed. Please check your connection and try again.");
     }
   }
 
@@ -56,6 +96,11 @@ export function AuthProvider({ children }) {
     setUser(null);
     setIsAuthenticated(false);
     localStorage.removeItem("user");
+    
+    // Clear cart on logout (will be handled by CartContext)
+    const logoutEvent = new CustomEvent('user-logout');
+    window.dispatchEvent(logoutEvent);
+    
     navigate("/login");
   }
 
