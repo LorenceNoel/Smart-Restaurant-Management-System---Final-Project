@@ -31,7 +31,7 @@ function ReservationPage() {
   const RESTAURANT_HOURS = {
     open: '11:00',
     close: '22:00',
-    closedDays: [1], // Monday = 1, Sunday = 0
+    closedDays: [0], // Monday = 1, Sunday = 0
   };
 
   const TIME_SLOTS = [
