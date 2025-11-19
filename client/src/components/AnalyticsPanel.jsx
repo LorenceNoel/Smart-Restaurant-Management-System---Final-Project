@@ -1,15 +1,25 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { getAnalytics } from "../services/analyticsService";
 import "../styles/AdminDashboard.css";
+import { useAuth } from "../context/AuthContext";
 
 function AnalyticsPanel() {
-  const analytics = getAnalytics();
+  const [stats, setStats] = useState(null);
+  const { token } = useAuth();
 
-  const stats = [
-    { label: "Total Orders Today", value: analytics.totalOrders },
-    { label: "Most Popular Item", value: analytics.popularItem },
-    { label: "Average Rating", value: `${analytics.averageRating} / 5` },
-  ];
+  useEffect(() => {
+    async function load() {
+      const data = await getAnalytics(token);
+      setStats([
+        { label: "Total Orders", value: data.totalOrders },
+        { label: "Total Reservations", value: data.totalReservations },
+        { label: "Revenue", value: `$${data.revenue}` }
+      ]);
+    }
+    load();
+  }, [token]);
+
+  if (!stats) return <p>Loading analytics...</p>;
 
   return (
     <div className="panel">

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import "../components/ChatAssistant.css";
-import { getFakeAssistantReply } from "../services/sampleAssistant";
+import "../styles/ChatAssistant.css";
+import { chatAssistant } from "../services/sampleAssistant";
 
 function ChatAssistant() {
   const [messages, setMessages] = useState([
@@ -10,7 +10,7 @@ function ChatAssistant() {
   const [loading, setLoading] = useState(false);
   const [minimized, setMinimized] = useState(false);
 
-  const handleSend = () => {
+  const handleSend = async () => {
     if (!input.trim()) return;
 
     const userMessage = { sender: "user", text: input };
@@ -18,12 +18,10 @@ function ChatAssistant() {
     setInput("");
     setLoading(true);
 
-    setTimeout(() => {
-      const reply = getFakeAssistantReply(input);
-      const botMessage = { sender: "bot", text: reply };
-      setMessages(prev => [...prev, botMessage]);
-      setLoading(false);
-    }, 500);
+    const reply = await chatAssistant(input);
+    const botMessage = { sender: "bot", text: reply.reply };
+    setMessages(prev => [...prev, botMessage]);
+    setLoading(false);
   };
 
   return (

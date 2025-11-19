@@ -1,10 +1,11 @@
-const mysql = require('mysql2');
+const sql = require("mssql");
 
-const pool = mysql.createPool({
-  host: 'localhost',
-  user: 'your_mysql_user',
-  password: 'your_mysql_password',
-  database: 'smart_restaurant',
-});
-
-module.exports = pool.promise();
+const config = {
+  user: "sodv2201",              
+  password: "sodv2201",          
+  server: "localhost\\SQLEXPRESS", 
+  database: "SmartRestaurant",   
+  options: {
+    trustServerCertificate: true
+  }
+};

@@ -1,49 +1,44 @@
-import { useState } from 'react'
+import React, { useState, useEffect } from "react";
+import { getCurrentUser } from "../services/authService";
+import { useAuth } from "../context/AuthContext";
 
 function AccountPage() {
-    const [user, setUser]=useState({id:"",fullname:" " , email:" "})
-    const [users, setUsers] = useState([])
+  const [user, setUser] = useState(null);
+  const { token } = useAuth();
 
+  useEffect(() => {
+    async function loadUser() {
+      const data = await getCurrentUser(token);
+      setUser(data);
+    }
+    loadUser();
+  }, [token]);
 
-    const handleId = (e)=>{
-        setUser({...user, id:e.target.value})
-    }
-    const handlefullname = (e)=>{
-    setUser({...user, fullname:e.target.value})
-    }
-    const submitUserProfile = (e)=>{
-        e.preventDefault();
-        setUsers([...users, user])
-        setUser({id:"", fullname:""})
-    }
+  if (!user) return <p>Loading account...</p>;
 
   return (
     <div>
-    <form>
-       Enter Id <input type='text' value={user.id} name='id' onChange={handleId} /> <br />
-      Enter Fullname <input type='text' value={user.fullname} name='fullname' onChange={handlefullname} /> <br />
-       <button type='submit' onClick={submitUserProfile} >Send</button>     
-    </form>
-      <p>
-         {users.map((e,i)=> 
-           <li key={i}>{e.id} {e.fullname}</li>
-         )}
-     </p>
-     <p>
-        <table border={1}>
-            <thead>
-                <tr><td>ID</td><td>Fullname</td><td>Email</td></tr>
-            </thead>
-            <tbody>
-                {users.map((e, index)=>{
-                    return <tr key={index}><td>{e.id}</td><td>{e.fullname}</td><td>{e.email}</td></tr>
-                })}
-            </tbody>
-        </table>
-     </p>
-
+      <h2>My Account</h2>
+      <table border={1}>
+        <thead>
+          <tr>
+            <td>ID</td>
+            <td>Name</td>
+            <td>Email</td>
+            <td>Role</td>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>{user.id}</td>
+            <td>{user.name}</td>
+            <td>{user.email}</td>
+            <td>{user.role}</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
-  )
+  );
 }
 
-export default AccountPage
+export default AccountPage;

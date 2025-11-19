@@ -1,22 +1,25 @@
 import React, { useState } from "react";
 import { useAuth } from "../context/AuthContext";
+import { loginUser } from "../services/authService";
 import { useNavigate } from "react-router-dom";
 import "../styles/LoginPage.css";
 
 function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { login } = useAuth();
+  const { setUser, setToken } = useAuth();
   const navigate = useNavigate();
 
-  function handleSubmit(e) {
+  async function handleSubmit(e) {
     e.preventDefault();
-    login(email, password);
-  }
-
-  function handleQuickAdminLogin() {
-    setEmail("admin@example.com");
-    setPassword("admin123");
+    const result = await loginUser({ email, password });
+    if (result.token) {
+      setUser(result.user);
+      setToken(result.token);
+      navigate("/menu");
+    } else {
+      alert(result.error || "Login failed");
+    }
   }
 
   return (
@@ -39,12 +42,6 @@ function LoginPage() {
         />
         <button type="submit">Login</button>
       </form>
-
-      <hr style={{ margin: "20px 0" }} />
-
-      <button className="admin-login-button" onClick={handleQuickAdminLogin}>
-        🔐 Quick Admin Login
-      </button>
     </div>
   );
 }

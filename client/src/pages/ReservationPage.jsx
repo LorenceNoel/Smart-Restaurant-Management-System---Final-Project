@@ -1,5 +1,7 @@
 import React, { useState } from "react";
-import '../components/ReservationPage.css';
+import "../styles/ReservationPage.css";
+import { createReservation } from "../services/reservationService";
+import { useAuth } from "../context/AuthContext";
 
 function ReservationPage() {
   const [formData, setFormData] = useState({
@@ -10,17 +12,25 @@ function ReservationPage() {
     guests: 1,
     notes: "",
   });
+  const [message, setMessage] = useState("");
+  const { token } = useAuth();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Reservation submitted:", formData);
-    alert("Reservation submitted!");
-    // Later: send to backend
+    try {
+      const result = await createReservation(formData, token);
+      setMessage("Reservation submitted successfully!");
+      setFormData({ name: "", email: "", date: "", time: "", guests: 1, notes: "" });
+      console.log("Reservation created:", result);
+    } catch (err) {
+      setMessage("Error submitting reservation. Please try again.");
+      console.error(err);
+    }
   };
 
   return (
@@ -74,6 +84,7 @@ function ReservationPage() {
         />
         <button type="submit">Reserve Table</button>
       </form>
+      {message && <p className="reservation-message">{message}</p>}
     </div>
   );
 }

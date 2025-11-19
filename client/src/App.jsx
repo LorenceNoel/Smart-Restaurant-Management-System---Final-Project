@@ -10,17 +10,22 @@ import SignupPage from "./pages/SignupPage";
 
 function App() {
   return (
-    <>
+    <div>
+      {/* Navbar always visible */}
       <Navbar />
+
+      {/* Page content */}
       <Routes>
+        <Route path="/" element={<LoginPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignupPage />} />
         <Route path="/menu" element={<MenuPage />} />
         <Route path="/reservation" element={<ReservationPage />} />
         <Route path="/cart" element={<CartPage />} />
         <Route path="/admin" element={<AdminDashboard />} />
+        <Route path="*" element={<h1>Page Not Found</h1>} />
       </Routes>
-    </>
+    </div>
   );
 }
 

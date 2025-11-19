@@ -1,82 +1,41 @@
-import React, { useState, useEffect } from "react";
-import FilterBar from "../components/FilterBar";
-import MenuItemCard from "../components/MenuItemCard";
-import "../components/MenuPage.css";
+import React, { useEffect, useState } from "react";
+import { getMenu } from "../services/menuService";
+import "../styles/MenuPage.css";
 
 function MenuPage() {
   const [menuItems, setMenuItems] = useState([]);
-  const [filteredItems, setFilteredItems] = useState([]);
-  const [filters, setFilters] = useState({
-    category: "",
-    dietary: "",
-    maxPrice: "",
-    search: "",
-  });
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
 
   useEffect(() => {
-    const mockData = [
-      {
-        id: 1,
-        name: "Caesar Salad",
-        description: "Crisp romaine, parmesan, croutons",
-        ingredients: "Romaine, Parmesan, Croutons, Caesar Dressing",
-        category: "Starters",
-        price: 8.99,
-        dietary: "vegetarian",
-      },
-      {
-        id: 2,
-        name: "Grilled Salmon",
-        description: "Served with lemon butter sauce",
-        ingredients: "Salmon, Lemon, Butter, Herbs",
-        category: "Mains",
-        price: 18.99,
-        dietary: "gluten-free",
-      },
-      {
-        id: 3,
-        name: "Chocolate Cake",
-        description: "Rich and moist vegan dessert",
-        ingredients: "Cocoa, Almond Milk, Flour, Sugar",
-        category: "Desserts",
-        price: 6.5,
-        dietary: "vegan",
-      },
-    ];
-
-    setMenuItems(mockData);
-    setFilteredItems(mockData); // Show all by default
+    async function fetchMenu() {
+      try {
+        const data = await getMenu(); // calls backend via axios
+        setMenuItems(data);
+      } catch (err) {
+        setError("Failed to load menu items");
+      } finally {
+        setLoading(false);
+      }
+    }
+    fetchMenu();
   }, []);
 
-  const applyFilters = () => {
-    let filtered = [...menuItems];
-    const { category, dietary, maxPrice, search } = filters;
-
-    if (category) {
-      filtered = filtered.filter((item) => item.category === category);
-    }
-    if (dietary) {
-      filtered = filtered.filter((item) => item.dietary === dietary);
-    }
-    if (maxPrice) {
-      filtered = filtered.filter((item) => item.price <= parseFloat(maxPrice));
-    }
-    if (search) {
-      filtered = filtered.filter((item) =>
-        item.name.toLowerCase().includes(search.toLowerCase())
-      );
-    }
-
-    setFilteredItems(filtered);
-  };
+  if (loading) return <p>Loading menu...</p>;
+  if (error) return <p className="error">{error}</p>;
 
   return (
     <div className="menu-page">
-      <h1 className="menu-title">Explore Our Menu</h1>
-      <FilterBar filters={filters} setFilters={setFilters} applyFilters={applyFilters} />
+      <h1>Our Menu</h1>
       <div className="menu-grid">
-        {filteredItems.map((item) => (
-          <MenuItemCard key={item.id} item={item} />
+        {menuItems.map((item) => (
+          <div key={item.Id} className="menu-card">
+            <h2>{item.Name}</h2>
+            <p>{item.Description}</p>
+            <p><strong>Category:</strong> {item.Category}</p>
+            <p><strong>Price:</strong> ${item.Price}</p>
+            <p><strong>Tags:</strong> {item.Tags}</p>
+          </div>
         ))}
       </div>
     </div>

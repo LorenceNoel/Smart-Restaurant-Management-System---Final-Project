@@ -1,11 +1,18 @@
-export function getReservations() {
-  return [
-    { id: 201, name: "Charlie", time: "6:00 PM", status: "Pending" },
-    { id: 202, name: "Dana", time: "7:30 PM", status: "Approved" },
-    { id: 203, name: "Eli", time: "8:15 PM", status: "Pending" },
-  ];
+import axios from "axios";
+
+const API_URL = "http://localhost:5000/api/reservations";
+
+export async function createReservation(data) {
+  const res = await axios.post(API_URL, data);
+  return res.data;
 }
 
-export function updateReservationStatus(id, status) {
-  console.log(`Reservation ${id} updated to: ${status}`);
+export async function getReservations() {
+  const res = await axios.get(API_URL);
+  return res.data;
+}
+
+export async function updateReservation(id, data) {
+  const res = await axios.put(`${API_URL}/${id}`, data);
+  return res.data;
 }

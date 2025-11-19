@@ -11,17 +11,45 @@ function Navbar() {
 
   return (
     <nav className="navbar">
-      <NavLink to="/menu" className={({ isActive }) => isActive ? "nav-item active" : "nav-item"}>Menu</NavLink>
+      <NavLink
+        to="/menu"
+        className={({ isActive }) => (isActive ? "nav-item active" : "nav-item")}
+      >
+        Menu
+      </NavLink>
+
       {!user ? (
         <>
-          <NavLink to="/login" className={({ isActive }) => isActive ? "nav-item active" : "nav-item"}>Login</NavLink>
-          <NavLink to="/signup" className={({ isActive }) => isActive ? "nav-item active" : "nav-item"}>Signup</NavLink>
+          <NavLink
+            to="/login"
+            className={({ isActive }) => (isActive ? "nav-item active" : "nav-item")}
+          >
+            Login
+          </NavLink>
+          <NavLink
+            to="/signup"
+            className={({ isActive }) => (isActive ? "nav-item active" : "nav-item")}
+          >
+            Signup
+          </NavLink>
         </>
       ) : (
         <>
-          <NavLink to="/reservation" className={({ isActive }) => isActive ? "nav-item active" : "nav-item"}>Reservation</NavLink>
-          <NavLink to="/cart" className={({ isActive }) => isActive ? "nav-item active" : "nav-item"}>Cart</NavLink>
-          <button onClick={logout} className="nav-item logout-btn">Logout</button>
+          <NavLink
+            to="/reservation"
+            className={({ isActive }) => (isActive ? "nav-item active" : "nav-item")}
+          >
+            Reservation
+          </NavLink>
+          <NavLink
+            to="/cart"
+            className={({ isActive }) => (isActive ? "nav-item active" : "nav-item")}
+          >
+            Cart
+          </NavLink>
+          <button onClick={logout} className="nav-item logout-btn">
+            Logout
+          </button>
         </>
       )}
     </nav>
