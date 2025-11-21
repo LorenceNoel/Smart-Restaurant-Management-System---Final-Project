@@ -8,6 +8,7 @@ import "../styles/CartPage.css";
 function CartPage() {
   const [orderMethod, setOrderMethod] = useState(""); // "delivery" or "pickup"
   const [deliveryAddress, setDeliveryAddress] = useState("");
+  const [deliveryPhone, setDeliveryPhone] = useState("");
   const [view, setView] = useState("cart"); // "cart" or "status"
   const [orderPlaced, setOrderPlaced] = useState(false);
   const [orderStatus, setOrderStatus] = useState("");
@@ -50,6 +51,16 @@ function CartPage() {
       return;
     }
 
+    if (orderMethod === "delivery" && !deliveryPhone.trim()) {
+      alert("Please enter a phone number for delivery");
+      return;
+    }
+
+    if (orderMethod === "delivery" && !/^[\+]?[1-9][\d]{0,15}$/.test(deliveryPhone.replace(/\s/g, ''))) {
+      alert("Please enter a valid phone number");
+      return;
+    }
+
     if (cartItems.length === 0) {
       alert("Your cart is empty");
       return;
@@ -62,7 +73,7 @@ function CartPage() {
         userId: user?.userId || null,
         customerName: user ? `${user.firstName || ''} ${user.lastName || ''}`.trim() : 'Guest Customer',
         customerEmail: user?.email || null,
-        customerPhone: user?.phone || null,
+        customerPhone: orderMethod === "delivery" ? deliveryPhone : (user?.phone || null),
         orderType: orderMethod,
         deliveryAddress: orderMethod === "delivery" ? deliveryAddress : null,
         items: cartItems.map(item => ({
@@ -138,14 +149,25 @@ function CartPage() {
                 </label>
                 
                 {orderMethod === "delivery" && (
-                  <div className="delivery-address">
-                    <input
-                      type="text"
-                      placeholder="Enter your delivery address"
-                      value={deliveryAddress}
-                      onChange={(e) => setDeliveryAddress(e.target.value)}
-                      required
-                    />
+                  <div className="delivery-info">
+                    <div className="delivery-address">
+                      <input
+                        type="text"
+                        placeholder="Enter your delivery address"
+                        value={deliveryAddress}
+                        onChange={(e) => setDeliveryAddress(e.target.value)}
+                        required
+                      />
+                    </div>
+                    <div className="delivery-phone">
+                      <input
+                        type="tel"
+                        placeholder="Phone number for delivery - e.g., 555 123 4567"
+                        value={deliveryPhone}
+                        onChange={(e) => setDeliveryPhone(e.target.value)}
+                        required
+                      />
+                    </div>
                   </div>
                 )}
               </div>

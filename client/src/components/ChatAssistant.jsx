@@ -1,16 +1,15 @@
-// This is our AI chat assistant - it's like a floating help button that customers can use
-// to ask questions about the restaurant. It's pretty smart and can answer most common questions!
-
+// This is our AI chat assistant component - it helps customers with questions
 import React, { useState, useEffect } from "react";
 import "./ChatAssistant.css";
-import { generateAIResponse, logUserInteraction } from "../services/aiService";
+import { useAuth } from "../context/AuthContext";
+import { sendChatMessage, logUserInteraction } from "../services/aiService";
 
 function ChatAssistant() {
-  // All the chat messages - starts with a friendly greeting from the bot
+  const { user } = useAuth();
   const [messages, setMessages] = useState([
     { 
       sender: "bot", 
-      text: "🤖 Hi! I'm your AI restaurant assistant. I can help with menu recommendations, dietary preferences, reservations, and answer any questions about our restaurant!",
+      text: "🤖 Hi! I'm your AI restaurant assistant powered by real-time data. I can help with personalized menu recommendations, dietary preferences, reservations, and answer any questions about our restaurant!",
       timestamp: new Date()
     },
   ]);
@@ -25,16 +24,6 @@ function ChatAssistant() {
 
   /**
    * Handle Message Sending
-   * 
-   * Processes user input and generates AI responses with realistic delays.
-   * Includes error handling and interaction logging for AI improvement.
-   * 
-   * Features:
-   * - Input validation and sanitization
-   * - Realistic AI processing delays (800-1200ms)
-   * - Comprehensive error handling
-   * - Interaction logging for AI learning
-   * - Smooth UX with typing indicators
    */
   const handleSend = async () => {
     // Validate input - don't send empty messages
@@ -47,7 +36,7 @@ function ChatAssistant() {
       timestamp: new Date()
     };
     
-    // Save what they typed before we clear the input
+
     const currentInput = input;
     
     // Add their message to the chat right away so it feels responsive
@@ -57,31 +46,34 @@ function ChatAssistant() {
     setIsTyping(true);
 
     // Wait a bit before responding to make it feel like the AI is thinking
-    // Real chatbots do this to seem more human-like
-    setTimeout(() => {
+    setTimeout(async () => {
       try {
-        // Ask our AI service what to respond with
-        const aiResponse = generateAIResponse(currentInput);
+        // Use our clean AI service for server-side intelligent responses
+        const aiResult = await sendChatMessage(currentInput, user?.userId || null);
         
-        // Create the bot's response message
-        const botMessage = { 
-          sender: "bot", 
-          text: aiResponse,
-          timestamp: new Date()
-        };
-        
-        // Add the bot's response to the chat
-        setMessages(prev => [...prev, botMessage]);
-        
-        // Keep track of what people ask for future improvements
-        logUserInteraction(currentInput, aiResponse);
+        if (aiResult.success) {
+          // Create the bot's response message
+          const botMessage = { 
+            sender: "bot", 
+            text: aiResult.message,
+            timestamp: new Date()
+          };
+          
+          // Add the bot's response to the chat
+          setMessages(prev => [...prev, botMessage]);
+          
+          // Log interaction for analytics
+          logUserInteraction(currentInput, aiResult.message);
+        } else {
+          throw new Error(aiResult.error || 'AI response failed');
+        }
         
       } catch (error) {
         // If something goes wrong, show a friendly error message
         console.error("AI Service Error:", error);
         const errorMessage = {
           sender: "bot",
-          text: "I apologize, but I'm having trouble processing your request. Please try asking again or contact our staff for immediate assistance! 😊",
+          text: "I apologize, but I'm having trouble connecting to our AI system right now. Please try asking again or contact our staff for immediate assistance! 😊",
           timestamp: new Date()
         };
         setMessages(prev => [...prev, errorMessage]);
@@ -90,7 +82,7 @@ function ChatAssistant() {
         setLoading(false);
         setIsTyping(false);
       }
-    }, 800 + Math.random() * 400); // Random delay (800-1200ms) for natural feel
+    }, 800 + Math.random() * 400); 
   };
 
   // These are quick buttons for common questions - saves customers from typing

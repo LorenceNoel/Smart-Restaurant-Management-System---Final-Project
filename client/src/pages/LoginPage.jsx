@@ -158,9 +158,7 @@ function LoginPage() {
       <div className="signup-link">
         <p>Don't have an account? <Link to="/signup">Create Account</Link></p>
       </div>
-
       {/* For testing purposes only - Admin credentials: admin@example.com / admin123 */}
-      {/* This comment should be removed in production */}
     </div>
   );
 }

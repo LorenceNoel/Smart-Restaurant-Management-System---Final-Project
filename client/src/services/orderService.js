@@ -17,7 +17,10 @@ export async function getOrders() {
         orderDate: order.OrderDate,
         orderType: order.OrderType,
         estimatedTime: order.EstimatedTime,
-        menuName: order.MenuName
+        menuName: order.MenuName,
+        customerPhone: order.CustomerPhone,
+        deliveryAddress: order.DeliveryAddress,
+        customerEmail: order.CustomerEmail
       }));
       console.log('Mapped orders:', mappedOrders);
       return mappedOrders;

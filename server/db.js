@@ -1,10 +1,9 @@
 // This file handles connecting to our SQL Server database
-// It's like the bridge between our Node.js server and the database
 
 import sql from "mssql";
 import dotenv from "dotenv";
 
-// Load our database credentials from the .env file (keeps passwords secret!)
+// Load our database credentials from the .env file
 dotenv.config({ path: "./DB_config/.env" });
 
 // Database connection settings - like the address and login info for our database
@@ -30,13 +29,13 @@ const connectDB = async () => {
     if (!pool) {
       console.log('Connecting to SQL Server...');
       pool = await sql.connect(dbConfig);
-      console.log('✅ Connected to database:', process.env.DB_DATABASE);
-      console.log('🔗 Ready to run queries!');
+      console.log('Connected to database:', process.env.DB_DATABASE);
+      console.log('Ready to run queries!');
     }
     return pool;
   } catch (error) {
-    console.error('❌ Database connection failed:', error.message);
-    console.error('🔧 Check your database is running and credentials are correct');
+    console.error('Database connection failed:', error.message);
+    console.error('Check your database is running and credentials are correct');
     throw error;
   }
 };

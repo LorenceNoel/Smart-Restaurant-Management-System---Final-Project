@@ -31,7 +31,7 @@ function ReservationPage() {
   const RESTAURANT_HOURS = {
     open: '11:00',
     close: '22:00',
-    closedDays: [0], // Monday = 1, Sunday = 0
+    closedDays: [], // Open 7 days a week (Monday-Sunday)
   };
 
   const TIME_SLOTS = [
@@ -92,7 +92,7 @@ function ReservationPage() {
           const [hours, minutes] = slot.split(':');
           const slotTime = new Date();
           slotTime.setHours(parseInt(hours), parseInt(minutes), 0, 0);
-          return slotTime > new Date(Date.now() + 2 * 60 * 60 * 1000); // 2 hours advance notice
+          return slotTime > new Date(Date.now() + 2 * 60 * 60 * 1000); 
         }
         return true;
       });
@@ -162,7 +162,7 @@ function ReservationPage() {
       
       // Check if restaurant is closed on selected day
       if (RESTAURANT_HOURS.closedDays.includes(selectedDate.getDay())) {
-        newErrors.date = 'Restaurant is closed on Mondays';
+        newErrors.date = 'Restaurant is closed on selected day';
       }
       
       // Don't allow reservations more than 60 days in advance
@@ -299,7 +299,7 @@ function ReservationPage() {
             onChange={handleChange}
             error={errors.phone}
             icon="📱"
-            placeholder="Optional - for reservation confirmations"
+            placeholder="Optional - e.g., 555 123 4567"
           />
         </div>
 

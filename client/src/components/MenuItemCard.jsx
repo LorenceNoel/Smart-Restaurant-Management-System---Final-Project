@@ -18,7 +18,6 @@ function MenuItemCard({ item }) {
     const success = addToCart(item, user);
     
     // If user is not logged in, the addToCart function will show the login prompt
-    // and return false, so we don't need additional logic here
   };
 
   return (

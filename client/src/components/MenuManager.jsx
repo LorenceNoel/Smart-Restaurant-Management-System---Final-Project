@@ -1,24 +1,3 @@
-/**
- * Menu Management System Component
- * 
- * Comprehensive admin interface for managing restaurant menu items.
- * Provides full CRUD (Create, Read, Update, Delete) operations with:
- * 
- * - Real-time menu item management
- * - Category-based organization
- * - Availability toggle functionality
- * - Dietary restriction labeling
- * - Price and ingredient management
- * - Form validation and error handling
- * - Responsive design for all devices
- * 
- * This component is the core of the restaurant's menu administration system,
- * allowing staff to maintain accurate and up-to-date menu information.
- * 
- * @author SODV2201 Web Programming Course
- * @version 1.0.0
- */
-
 import React, { useState, useEffect } from "react";
 import { getMenuItems, updateMenuItem, createMenuItem, editMenuItem, getCategories } from "../services/menuService";
 
@@ -29,36 +8,36 @@ import { getMenuItems, updateMenuItem, createMenuItem, editMenuItem, getCategori
  * for restaurant staff to manage the complete menu system.
  */
 function MenuManager() {
-  // Core data state management
-  const [menu, setMenu] = useState([]);              // Complete menu items list
-  const [categories, setCategories] = useState([]);  // Available menu categories
-  const [loading, setLoading] = useState(true);      // Loading state for data fetching
+  
+  const [menu, setMenu] = useState([]);              
+  const [categories, setCategories] = useState([]);  
+  const [loading, setLoading] = useState(true);      
   
   // UI state management
-  const [showCreateForm, setShowCreateForm] = useState(false);  // Toggle create form visibility
-  const [editingItem, setEditingItem] = useState(null);        // Currently editing item ID
+  const [showCreateForm, setShowCreateForm] = useState(false);  
+  const [editingItem, setEditingItem] = useState(null);        
   
   // Form data for creating new menu items
   const [newItem, setNewItem] = useState({
-    name: '',           // Menu item name
-    description: '',    // Item description
-    price: '',          // Item price
-    categoryId: '',     // Category assignment
-    ingredients: '',    // Ingredient list
-    dietaryType: '',    // Dietary classification (vegetarian, vegan, etc.)
-    isAvailable: true   // Availability status
+    name: '',           
+    description: '',    
+    price: '',          
+    categoryId: '',     
+    ingredients: '',    
+    dietaryType: '',    
+    isAvailable: true   
   });
   
   // Form data for editing existing menu items
   const [editItem, setEditItem] = useState({
-    id: '',             // Item ID for updates
-    name: '',           // Updated item name
-    description: '',    // Updated description
-    price: '',          // Updated price
-    categoryId: '',     // Updated category
-    ingredients: '',    // Updated ingredients
-    dietaryType: '',    // Updated dietary type
-    isAvailable: true   // Updated availability
+    id: '',             
+    name: '',           
+    description: '',    
+    price: '',          
+    categoryId: '',     
+    ingredients: '',    
+    dietaryType: '',    
+    isAvailable: true   
   });
 
   useEffect(() => {
@@ -182,7 +161,7 @@ function MenuManager() {
       isAvailable: item.available
     });
     setEditingItem(item.id);
-    setShowCreateForm(false); // Close create form if open
+    setShowCreateForm(false);  
   };
 
   const handleEditItem = async (e) => {

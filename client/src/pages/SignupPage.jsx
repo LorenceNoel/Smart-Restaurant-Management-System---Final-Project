@@ -11,6 +11,16 @@ function SignupPage() {
   const { signup } = useAuth();
 
   const validateForm = () => {
+    if (!firstName.trim()) {
+      alert("First Name is required");
+      return false;
+    }
+
+    if (!lastName.trim()) {
+      alert("Last Name is required");
+      return false;
+    }
+
     if (!email.trim()) {
       alert("Email is required");
       return false;
@@ -24,6 +34,17 @@ function SignupPage() {
 
     if (password.length < 6) {
       alert("Password must be at least 6 characters");
+      return false;
+    }
+
+    if (!phone.trim()) {
+      alert("Phone number is required");
+      return false;
+    }
+
+    // Phone validation
+    if (!/^[\+]?[1-9][\d]{0,15}$/.test(phone.replace(/\s/g, ''))) {
+      alert("Please enter a valid phone number");
       return false;
     }
 
@@ -63,9 +84,10 @@ function SignupPage() {
         />
         <input
           type="tel"
-          placeholder="Phone (optional)"
+          placeholder="Phone Number - e.g., 555 123 4567"
           value={phone}
           onChange={(e) => setPhone(e.target.value)}
+          required
         />
         <input
           type="password"
